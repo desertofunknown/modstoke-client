@@ -1,0 +1,18 @@
+{
+  "id": "modstoke.client",
+  "name": "Modstoke Client",
+  "version": "0.2.4",
+  "author": "OpenACAI",
+  "type": "OpenACAIMod",
+  "assembly": "Modstoke.Client.dll",
+  "entryType": "Modstoke.Client.Plugin",
+  "entryMethod": "Initialize",
+  "lifecycle": [
+    "update",
+    "fixedupdate",
+    "shutdown"
+  ],
+  "onUpdate": "Update",
+  "onFixedUpdate": "FixedUpdate",
+  "onShutdown": "Shutdown"
+}

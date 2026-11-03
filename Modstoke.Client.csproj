@@ -1,0 +1,560 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net11.0</TargetFramework>
+    <AssemblyName>Modstoke.Client</AssemblyName>
+    <Title>Modstoke Client</Title>
+    <Product>Modstoke Client by OpenACAI</Product>
+    <Company>OpenACAI</Company>
+    <Description>Field tablet and wristwatch with navigation, messages and community services, by OpenACAI.</Description>
+    <Version>0.2.4</Version>
+    <RootNamespace>Modstoke.Client</RootNamespace>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <Nullable>enable</Nullable>
+    <PathMap>$(MSBuildProjectDirectory)=/_/Modstoke.Client</PathMap>
+    <PathMap Condition="'$(ArtifactsPath)' != ''">$(PathMap),$(ArtifactsPath)=/_/artifacts</PathMap>
+    <LoaderAssemblyPath Condition="'$(LoaderAssemblyPath)' == ''">$(MSBuildProjectDirectory)\..\Modstoke.Loader\bin\Release\Modstoke.Loader.dll</LoaderAssemblyPath>
+    <GameRoot Condition="'$(GameRoot)' == ''">$(MSBuildProjectDirectory)\..\..\..\..</GameRoot>
+    <GameInteropRoot Condition="'$(GameInteropRoot)' == ''">$(GameRoot)\BepInEx\interop</GameInteropRoot>
+    <SonsSdkPath Condition="'$(SonsSdkPath)' == ''">$(GameRoot)\BepInEx\plugins\OpenACAILoader\SonsSdk.dll</SonsSdkPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Preserve declaration order across partial files. -->
+    <Compile Include="Character\Appearance.cs" />
+    <Compile Include="Character\BodyFile.cs" />
+    <Compile Include="Character\BodyLibrary.cs" />
+    <Compile Include="Character\CharacterBody.cs" />
+    <Compile Include="Character\CharacterCreator.cs" />
+    <Compile Include="Character\CharacterProvider.cs" />
+    <Compile Include="Character\CharacterService.cs" />
+    <Compile Include="Character\CharacterStore.cs" />
+    <Compile Include="Networking\AdmissionProvider.cs" />
+    <Compile Include="Networking\Connections.cs" />
+    <Compile Include="Aircraft\Physics\AircraftAerodynamics.cs" />
+    <Compile Include="Aircraft\AircraftAudio.cs" />
+    <Compile Include="Aircraft\Physics\AircraftBody.cs" />
+    <Compile Include="Aircraft\Physics\AircraftBody.Ground.cs" />
+    <Compile Include="Aircraft\AircraftCockpit.cs" />
+    <Compile Include="Aircraft\Physics\AircraftCollision.cs" />
+    <Compile Include="Aircraft\AircraftContracts.cs" />
+    <Compile Include="Aircraft\Seating\AircraftCrewPose.cs" />
+    <Compile Include="Aircraft\Seating\AircraftCrewPose.Grip.cs" />
+    <Compile Include="Aircraft\Seating\AircraftCrewPose.Press.cs" />
+    <Compile Include="Aircraft\Models\AircraftModel.Crew.cs" />
+    <Compile Include="Aircraft\Models\AircraftModel.cs" />
+    <Compile Include="Aircraft\Models\AircraftModel.Resources.cs" />
+    <Compile Include="Aircraft\Seating\AircraftOccupants.cs" />
+    <Compile Include="Aircraft\Seating\AircraftRider.cs" />
+    <Compile Include="Aircraft\AircraftService.cs" />
+    <Compile Include="Aircraft\AircraftService.Doors.cs" />
+    <Compile Include="Aircraft\AircraftService.Interactions.cs" />
+    <Compile Include="Aircraft\AircraftService.Network.cs" />
+    <Compile Include="Aircraft\AircraftService.Persistence.cs" />
+    <Compile Include="Aircraft\AircraftService.Placement.cs" />
+    <Compile Include="Aircraft\AircraftService.SeatEvidence.cs" />
+    <Compile Include="Aircraft\Physics\AircraftWind.cs" />
+    <Compile Include="Combat\CombatController.cs" />
+    <Compile Include="Combat\CombatController.Resources.cs" />
+    <Compile Include="Community\CommandText.cs" />
+    <Compile Include="Community\Companions\CompanionProvider.cs" />
+    <Compile Include="Community\Companions\CompanionProvider.Forms.cs" />
+    <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="Devices\Printers\DeviceApp.Catalog.cs" />
+    <Compile Include="Devices\Printers\DeviceApp.cs" />
+    <Compile Include="Devices\DeviceInput.cs" />
+    <Compile Include="Devices\Inventory\DeviceInventory.Controller.cs" />
+    <Compile Include="Devices\Inventory\DeviceInventory.cs" />
+    <Compile Include="Devices\Inventory\DeviceInventory.Drone.cs" />
+    <Compile Include="Devices\Inventory\DeviceInventory.Layout.cs" />
+    <Compile Include="Devices\Inventory\DeviceInventory.Persistence.cs" />
+    <Compile Include="Devices\Printers\DeviceProvider.cs" />
+    <Compile Include="Devices\DeviceScreenMaterial.cs" />
+    <Compile Include="Devices\DeviceSurfaceFinish.cs" />
+    <Compile Include="Drone\DroneAudio.cs" />
+    <Compile Include="Drone\Physics\DroneBody.cs" />
+    <Compile Include="Drone\Camera\DroneVision.cs" />
+    <Compile Include="Drone\Camera\DroneThermalTargets.cs" />
+    <Compile Include="Drone\DroneContracts.cs" />
+    <Compile Include="Drone\Models\DroneControllerModel.cs" />
+    <Compile Include="Drone\DroneFirmware.cs" />
+    <Compile Include="Drone\Models\DroneModel.Battery.cs" />
+    <Compile Include="Drone\Models\DroneModel.cs" />
+    <Compile Include="Drone\Models\DroneModel.Geometry.cs" />
+    <Compile Include="Drone\Models\DroneModel.Inventory.cs" />
+    <Compile Include="Drone\DroneNative.cs" />
+    <Compile Include="Drone\DronePlacementPreview.cs" />
+    <Compile Include="Drone\DroneService.Camera.cs" />
+    <Compile Include="Drone\DroneService.cs" />
+    <Compile Include="Drone\DroneService.Environment.cs" />
+    <Compile Include="Drone\DroneService.Network.cs" />
+    <Compile Include="Drone\DroneService.Observations.cs" />
+    <Compile Include="Drone\DroneService.Persistence.cs" />
+    <Compile Include="Drone\DroneService.Placement.cs" />
+    <Compile Include="Drone\DroneService.Recovery.cs" />
+    <Compile Include="Drone\DroneService.TerrainSurvey.cs" />
+    <Compile Include="Navigation\FieldProfile.cs" />
+    <Compile Include="Arcade\GameSprites.cs" />
+    <Compile Include="Navigation\GpsInput.cs" />
+    <Compile Include="Survival\HealthObservation.cs" />
+    <Compile Include="Devices\Tablet\HeldTablet.cs" />
+    <Compile Include="Networking\Messaging\LocationMessage.cs" />
+    <Compile Include="Navigation\MapProvider.cs" />
+    <Compile Include="Networking\Messaging\Messenger.Contacts.cs" />
+    <Compile Include="Networking\Messaging\Messenger.cs" />
+    <Compile Include="Inventory\PackApp.cs" />
+    <Compile Include="Inventory\PackApp.Drop.cs" />
+    <Compile Include="Inventory\PackApp.Equipment.cs" />
+    <Compile Include="Inventory\PackApp.Mat.cs" />
+    <Compile Include="Inventory\PackApp.Recipes.cs" />
+    <Compile Include="Community\Services\ServicesProvider.cs" />
+    <Compile Include="Community\Services\ServicesProvider.Forms.cs" />
+    <Compile Include="Spacecraft\Physics\SpacecraftBody.cs" />
+    <Compile Include="Spacecraft\Physics\SpacecraftBody.Crew.cs" />
+    <Compile Include="Spacecraft\Physics\SpacecraftBody.Controls.cs" />
+    <Compile Include="Spacecraft\Physics\SpacecraftBody.StationCrew.cs" />
+    <Compile Include="Spacecraft\Physics\SpacecraftBody.Navigation.cs" />
+    <Compile Include="Spacecraft\Physics\SpacecraftBody.Docking.cs" />
+    <Compile Include="Spacecraft\Physics\SpacecraftCollision.cs" />
+    <Compile Include="Spacecraft\Orbit\OrbitalVector.cs" />
+    <Compile Include="Spacecraft\Orbit\OrbitalCatalog.cs" />
+    <Compile Include="Spacecraft\Orbit\OrbitalSimulation.cs" />
+    <Compile Include="Spacecraft\Orbit\OrbitalFrame.cs" />
+    <Compile Include="Spacecraft\Station\OrbitalStationOrbit.cs" />
+    <Compile Include="Spacecraft\Station\OrbitalStationSystems.cs" />
+    <Compile Include="Spacecraft\Station\OrbitalStationControls.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationLayout.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationStorage.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.Assets.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.Collision.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.Hull.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.Walls.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.Structures.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.Foam.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.Crew.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.Power.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.Cables.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.Floors.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.Plumbing.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.Injectors.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.AirAlarms.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.FireAlarms.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.Firefighting.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.Fuel.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.Thermal.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.Radiators.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.RoomThermal.cs" />
+    <Compile Include="Spacecraft\Station\StationGas.cs" />
+    <Compile Include="Spacecraft\Station\StationGas.Reactions.cs" />
+    <Compile Include="Spacecraft\Station\StationGas.Firefighting.cs" />
+    <Compile Include="Spacecraft\Station\StationGas.Venting.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationFirefighting.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationFirefighting.Layout.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationFirefightingControls.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationFirefightingHands.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationWaterEffects.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationSystems.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationSystems.Doors.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationSystems.Persistence.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationSystems.Storage.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationDoors.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationRooms.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationHull.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationHull.Walls.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationHull.Structures.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationHull.Cavities.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationFoam.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationFoam.Layout.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationFoamControls.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationHullRepair.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationHullRepair.Layout.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationHullRepair.Materials.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationHullRepair.Fabrication.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.Fabrication.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationFabricationControls.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationHullRepair.Storage.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationHullRepair.MaterialLayout.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationHullRepair.MaterialPersistence.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationHullRepair.Cables.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationHullRepair.Floors.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationHullRepair.Construction.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationHullRepair.ConstructionLayout.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationHullRepair.ConstructionPersistence.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationHullRepair.Doors.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationMaterialsControls.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.Materials.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.Storage.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.Construction.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.DoorConstruction.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationEngineering.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationEngineering.Layout.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationEngineering.Work.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationEngineering.Persistence.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationEngineeringControls.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.Engineering.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationHullRepairControls.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationModel.HullRepair.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationSystems.Flow.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationSystems.Rooms.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationAirAlarms.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationAirAlarmControls.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationFireAlarms.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationFireAlarms.Layout.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationFireAlarmControls.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationRoomThermal.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationRoomThermalControls.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationFireEffects.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationPower.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationPower.Layout.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationPower.Smes.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationPower.Cables.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationPowerControls.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationSmesControls.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationPlumbing.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationPlumbing.Layout.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationPlumbing.AirControls.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationPlumbing.Thermal.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationPlumbing.Injectors.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationPlumbing.ShoreAir.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationSystems.ShoreAir.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationPlumbing.Radiation.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationPlumbingControls.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationPlumbingControls.Injectors.cs" />
+    <Compile Include="Spacecraft\Station\BoxStationPlumbingControls.Thermal.cs" />
+    <Compile Include="Spacecraft\SpacecraftAudio.cs" />
+    <Compile Include="Spacecraft\SpacecraftComputerAudio.cs" />
+    <Compile Include="Spacecraft\SpacecraftComputer.cs" />
+    <Compile Include="Spacecraft\SpacecraftEffects.cs" />
+    <Compile Include="Spacecraft\SpacecraftCabin.cs" />
+    <Compile Include="Spacecraft\SpacecraftLife.cs" />
+    <Compile Include="Spacecraft\SpacecraftSystems.cs" />
+    <Compile Include="Spacecraft\SpacecraftSystems.Electrical.cs" />
+    <Compile Include="Spacecraft\SpacecraftSystems.ShoreAir.cs" />
+    <Compile Include="Spacecraft\SpacecraftShoreAir.cs" />
+    <Compile Include="Spacecraft\SpacecraftSystems.ShoreFuel.cs" />
+    <Compile Include="Spacecraft\SpacecraftShoreFuel.cs" />
+    <Compile Include="Spacecraft\SpacecraftSystems.ShoreCoolant.cs" />
+    <Compile Include="Spacecraft\SpacecraftSystems.Spares.cs" />
+    <Compile Include="Spacecraft\SpacecraftSystems.EngineService.cs" />
+    <Compile Include="Spacecraft\SpacecraftSystems.WarpService.cs" />
+    <Compile Include="Spacecraft\SpacecraftSystems.Sealant.cs" />
+    <Compile Include="Spacecraft\SpacecraftSystems.Service.cs" />
+    <Compile Include="Spacecraft\SpacecraftSystems.Hull.cs" />
+    <Compile Include="Spacecraft\SpacecraftSystems.Thermal.cs" />
+    <Compile Include="Spacecraft\SpacecraftSystems.Fire.cs" />
+    <Compile Include="Spacecraft\SpacecraftAtmosphere.Combustion.cs" />
+    <Compile Include="Spacecraft\SpacecraftFireEffects.cs" />
+    <Compile Include="Spacecraft\SpacecraftShoreCoolant.cs" />
+    <Compile Include="Spacecraft\SpacecraftSystems.ShoreLiquids.cs" />
+    <Compile Include="Spacecraft\SpacecraftShorePower.cs" />
+    <Compile Include="Spacecraft\SpacecraftShorePower.Fuel.cs" />
+    <Compile Include="Spacecraft\SpacecraftShorePower.Coolant.cs" />
+    <Compile Include="Spacecraft\SpacecraftShoreAirAudio.cs" />
+    <Compile Include="Spacecraft\SpacecraftSystems.Persistence.cs" />
+    <Compile Include="Spacecraft\SpacecraftElectrical.cs" />
+    <Compile Include="Spacecraft\SpacecraftAtmosphere.cs" />
+    <Compile Include="Spacecraft\SpacecraftMeshData.cs" />
+    <Compile Include="Spacecraft\SpacecraftModel.Airlock.cs" />
+    <Compile Include="Spacecraft\SpacecraftModel.FlightControls.cs" />
+    <Compile Include="Spacecraft\SpacecraftModel.FlightControlBoot.cs" />
+    <Compile Include="Spacecraft\SpacecraftModel.SeatConsole.cs" />
+    <Compile Include="Spacecraft\SpacecraftSeatConsole.cs" />
+    <Compile Include="Spacecraft\SpacecraftCockpit.SeatConsole.cs" />
+    <Compile Include="Spacecraft\SpacecraftStations.cs" />
+    <Compile Include="Spacecraft\SpacecraftStations.Interaction.cs" />
+    <Compile Include="Spacecraft\SpacecraftStations.Panels.cs" />
+    <Compile Include="Spacecraft\SpacecraftStations.CoolantRepair.cs" />
+    <Compile Include="Spacecraft\SpacecraftStations.Spares.cs" />
+    <Compile Include="Spacecraft\SpacecraftStations.EngineService.cs" />
+    <Compile Include="Spacecraft\SpacecraftStations.WarpService.cs" />
+    <Compile Include="Spacecraft\SpacecraftStations.Sealant.cs" />
+    <Compile Include="Spacecraft\SpacecraftStations.Service.cs" />
+    <Compile Include="Spacecraft\SpacecraftStations.HullService.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.ManualRepair.cs" />
+    <Compile Include="Spacecraft\SpacecraftStations.Auxiliary.cs" />
+    <Compile Include="Spacecraft\SpacecraftStations.Electrical.cs" />
+    <Compile Include="Spacecraft\SpacecraftStations.ShoreAir.cs" />
+    <Compile Include="Spacecraft\SpacecraftStations.Engineering.cs" />
+    <Compile Include="Spacecraft\SpacecraftStations.Orbits.cs" />
+    <Compile Include="Spacecraft\SpacecraftCockpit.NativeControls.cs" />
+    <Compile Include="Spacecraft\SpacecraftCockpit.FlightControl.cs" />
+    <Compile Include="Spacecraft\SpacecraftCockpit.Docking.cs" />
+    <Compile Include="Spacecraft\SpacecraftCockpit.Displays.cs" />
+    <Compile Include="Spacecraft\SpacecraftCockpit.cs" />
+    <Compile Include="Spacecraft\SpacecraftContracts.cs" />
+    <Compile Include="Spacecraft\SpacecraftExpedition.cs" />
+    <Compile Include="Spacecraft\SpacecraftModel.cs" />
+    <Compile Include="Spacecraft\SpacecraftModel.Reflections.cs" />
+    <Compile Include="Spacecraft\SpacecraftModel.Airframe.cs" />
+    <Compile Include="Spacecraft\SpacecraftModel.CabinDoor.cs" />
+    <Compile Include="Spacecraft\SpacecraftModel.Hull.cs" />
+    <Compile Include="Spacecraft\Seating\SpacecraftOccupants.cs" />
+    <Compile Include="Spacecraft\Seating\SpacecraftRider.cs" />
+    <Compile Include="Spacecraft\Seating\SpacecraftRider.Controls.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.Console.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.Engineering.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.Access.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.Storage.cs" />
+    <Compile Include="Spacecraft\Storage\SpacecraftStorage.cs" />
+    <Compile Include="Spacecraft\Storage\SpacecraftToolRack.cs" />
+    <Compile Include="Spacecraft\Storage\SpacecraftExtinguisherRack.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.Interactions.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.Lifecycle.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.Persistence.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.Orbits.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.Frames.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.Thermal.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.ShipFirefighting.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.Fire.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.Station.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationCrew.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.ShoreControls.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationNetwork.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationHull.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationHullNetwork.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationPower.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationSmes.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationCables.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationFloors.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationPlumbing.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationAirAlarms.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationFireAlarms.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationFirefighting.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationFirefightingNetwork.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationFoam.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationFoamNetwork.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationRepair.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationRepairNetwork.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationMaterials.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationFabrication.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.Spares.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationStorage.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationMaterialsNetwork.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationPortableNetwork.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationEngineering.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.ToolRack.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationEngineeringNetwork.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.StationRoomThermal.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.Eva.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.EvaNetwork.cs" />
+    <Compile Include="Spacecraft\SpacecraftSystems.Eva.cs" />
+    <Compile Include="Spacecraft\Eva\SpacecraftEvaSuit.cs" />
+    <Compile Include="Spacecraft\Eva\SpacecraftEvaRack.cs" />
+    <Compile Include="Spacecraft\Eva\SpacecraftEvaHud.cs" />
+    <Compile Include="Spacecraft\Eva\SpacecraftEvaVisuals.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.Docking.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.Navigation.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.MovementEvidence.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.Recovery.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.SurfaceRecovery.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.Suspension.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.Network.cs" />
+    <Compile Include="Spacecraft\SpacecraftService.Placement.cs" />
+    <Compile Include="Spacecraft\World\SpacecraftWorld.Atmosphere.cs" />
+    <Compile Include="Spacecraft\World\SpacecraftWorld.cs" />
+    <Compile Include="Spacecraft\World\SpacecraftWorld.Space.cs" />
+    <Compile Include="Spacecraft\World\SpacecraftWorld.Celestials.cs" />
+    <Compile Include="Spacecraft\World\CelestialSurface.cs" />
+    <Compile Include="Spacecraft\World\SpacecraftWorld.Moon.cs" />
+    <Compile Include="Spacecraft\World\SpacecraftWorld.Forest.cs" />
+    <Compile Include="Spacecraft\World\SpacecraftWorld.Props.cs" />
+    <Compile Include="Devices\Tablet\TabletAlerts.cs" />
+    <Compile Include="Devices\Tablet\TabletFinish.cs" />
+    <Compile Include="Devices\Tablet\TabletFrameUpdate.cs" />
+    <Compile Include="Arcade\TabletGames.cs" />
+    <Compile Include="Arcade\TabletGames.SignalBreach.Combat.cs" />
+    <Compile Include="Arcade\TabletGames.SignalBreach.cs" />
+    <Compile Include="Arcade\TabletGames.SignalBreach.Encounters.cs" />
+    <Compile Include="Arcade\TabletGames.TideRunner.Adventure.cs" />
+    <Compile Include="Arcade\TabletGames.TideRunner.cs" />
+    <Compile Include="Devices\Tablet\TabletGpsPose.cs" />
+    <Compile Include="Devices\Tablet\TabletHandPose.cs" />
+    <Compile Include="Devices\Tablet\TabletMessages.cs" />
+    <Compile Include="Devices\Tablet\TabletModel.cs" />
+    <Compile Include="Navigation\TabletNavigation.cs" />
+    <Compile Include="Navigation\TabletNavigation.Field.cs" />
+    <Compile Include="Navigation\TabletNavigation.Markers.cs" />
+    <Compile Include="Navigation\TabletNavigation.Notebook.cs" />
+    <Compile Include="Navigation\TabletNavigation.Tools.cs" />
+    <Compile Include="Navigation\TabletNavigation.Ui.cs" />
+    <Compile Include="Devices\Tablet\TabletOperatingSystem.cs" />
+    <Compile Include="Devices\Tablet\TabletOperatingSystem.Field.cs" />
+    <Compile Include="Devices\Tablet\TabletOperatingSystem.Field.Favorites.cs" />
+    <Compile Include="Devices\Tablet\TabletOperatingSystem.Reminders.cs" />
+    <Compile Include="Devices\Tablet\TabletOperatingSystem.Runtime.cs" />
+    <Compile Include="Devices\Tablet\TabletOperatingSystem.WristWatch.cs" />
+    <Compile Include="Devices\Tablet\TabletPreferences.cs" />
+    <Compile Include="Devices\Presence\TabletPresence.cs" />
+    <Compile Include="Devices\Presence\TabletPresence.Appearance.cs" />
+    <Compile Include="Devices\Presence\TabletPresence.FrameUpdate.cs" />
+    <Compile Include="Devices\Presence\TabletPresence.Items.cs" />
+    <Compile Include="Devices\Presence\TabletPresence.Network.cs" />
+    <Compile Include="Devices\Presence\TabletPresence.Pose.cs" />
+    <Compile Include="Devices\Presence\TabletPresence.Screen.cs" />
+    <Compile Include="Devices\Presence\TabletPresence.ScreenNetwork.cs" />
+    <Compile Include="Devices\Presence\TabletPresence.Touch.cs" />
+    <Compile Include="Devices\Presence\TabletPresence.Watch.cs" />
+    <Compile Include="Devices\Tablet\TabletScreenCapture.cs" />
+    <Compile Include="Devices\Tablet\TabletScreenFrame.cs" />
+    <Compile Include="Devices\Tablet\TabletSurfaces.cs" />
+    <Compile Include="Devices\Tablet\TabletTypography.cs" />
+    <Compile Include="UI\Terminal\Terminal.Aircraft.cs" />
+    <Compile Include="UI\Terminal\Terminal.Clock.cs" />
+    <Compile Include="UI\Terminal\Terminal.cs" />
+    <Compile Include="UI\Terminal\Terminal.DeviceAudio.cs" />
+    <Compile Include="UI\Terminal\Terminal.Drone.cs" />
+    <Compile Include="UI\Terminal\Terminal.Drone.Survey.cs" />
+    <Compile Include="UI\Terminal\Terminal.Environment.cs" />
+    <Compile Include="UI\Terminal\Terminal.EventSystem.cs" />
+    <Compile Include="UI\Terminal\Terminal.Field.cs" />
+    <Compile Include="UI\Terminal\Terminal.Field.Notes.cs" />
+    <Compile Include="UI\Terminal\Terminal.Immersive.cs" />
+    <Compile Include="UI\Terminal\Terminal.Input.cs" />
+    <Compile Include="UI\Terminal\Terminal.Pack.cs" />
+    <Compile Include="UI\Terminal\Terminal.Presence.cs" />
+    <Compile Include="UI\Terminal\Terminal.ScreenShare.cs" />
+    <Compile Include="UI\Terminal\Terminal.Spacecraft.cs" />
+    <Compile Include="UI\Terminal\Terminal.Tribe.cs" />
+    <Compile Include="UI\Terminal\TerminalModel.cs" />
+    <Compile Include="UI\Terminal\TerminalPage.cs" />
+    <Compile Include="UI\Views\TerminalView.Accessibility.cs" />
+    <Compile Include="UI\Views\TerminalView.Aircraft.cs" />
+    <Compile Include="UI\Views\TerminalView.Clock.cs" />
+    <Compile Include="UI\Views\TerminalView.cs" />
+    <Compile Include="UI\Views\TerminalView.Desktop.cs" />
+    <Compile Include="UI\Views\TerminalView.Devices.Catalog.cs" />
+    <Compile Include="UI\Views\TerminalView.Devices.cs" />
+    <Compile Include="UI\Views\TerminalView.Drone.cs" />
+    <Compile Include="UI\Views\TerminalView.Drone.Readiness.cs" />
+    <Compile Include="UI\Views\TerminalView.Drone.Survey.cs" />
+    <Compile Include="UI\Views\TerminalView.Drone.Tools.cs" />
+    <Compile Include="UI\Views\TerminalView.Environment.cs" />
+    <Compile Include="UI\Views\TerminalView.Field.cs" />
+    <Compile Include="UI\Views\TerminalView.Field.Locations.cs" />
+    <Compile Include="UI\Views\TerminalView.Field.Workflows.cs" />
+    <Compile Include="UI\Views\TerminalView.Games.cs" />
+    <Compile Include="UI\Views\TerminalView.Games.Shell.cs" />
+    <Compile Include="UI\Views\TerminalView.Immersive.cs" />
+    <Compile Include="UI\Views\TerminalView.Inbox.cs" />
+    <Compile Include="UI\Views\TerminalView.Launcher.cs" />
+    <Compile Include="UI\Views\TerminalView.Messenger.cs" />
+    <Compile Include="UI\Views\TerminalView.Messenger.Tools.cs" />
+    <Compile Include="UI\Views\TerminalView.Pack.cs" />
+    <Compile Include="UI\Views\TerminalView.Presentation.cs" />
+    <Compile Include="UI\Views\TerminalView.Runtime.cs" />
+    <Compile Include="UI\Views\TerminalView.Satellite.cs" />
+    <Compile Include="UI\Views\TerminalView.Services.cs" />
+    <Compile Include="UI\Views\TerminalView.ShellNavigation.cs" />
+    <Compile Include="UI\Views\TerminalView.Spacecraft.cs" />
+    <Compile Include="UI\Views\TerminalView.System.cs" />
+    <Compile Include="UI\Views\TerminalView.System.Discovery.cs" />
+    <Compile Include="UI\Views\TerminalView.Tribe.Council.cs" />
+    <Compile Include="UI\Views\TerminalView.Tribe.cs" />
+    <Compile Include="UI\Views\TerminalView.Widgets.cs" />
+    <Compile Include="Community\Tribes\TribeApp.Council.cs" />
+    <Compile Include="Community\Tribes\TribeApp.cs" />
+    <Compile Include="Community\Tribes\TribeProvider.cs" />
+    <Compile Include="Community\Tribes\TribeProvider.Editors.cs" />
+    <Compile Include="Devices\Watch\WatchEquipment.cs" />
+    <Compile Include="Devices\Watch\WatchHud.cs" />
+    <Compile Include="Devices\Watch\WristWatch.cs" />
+    <Compile Include="Devices\Watch\WristWatchDisplay.cs" />
+    <Compile Include="Devices\Watch\WristWatchFit.cs" />
+    <Compile Include="Devices\Watch\WristWatchModel.cs" />
+    <Compile Include="Devices\Watch\WristWatchPose.cs" />
+    <Compile Include="Devices\Watch\WristWatchSnapshot.cs" />
+    <Compile Include="Devices\Watch\WristWatchTouch.cs" />
+    <Compile Include="Plugin.cs" />
+  </ItemGroup>
+  <Target Name="RequireLoaderAssembly" BeforeTargets="ResolveAssemblyReferences">
+    <Error Condition="!Exists('$(LoaderAssemblyPath)')"
+           Text="Build the loader first, or set LoaderAssemblyPath to the current Modstoke.Loader.dll." />
+  </Target>
+  <ItemGroup>
+    <Reference Include="Modstoke.Loader" HintPath="$(LoaderAssemblyPath)" Private="false" />
+    <Reference Include="SonsSdk" HintPath="$(SonsSdkPath)" Private="false" />
+    <Reference Include="BepInEx.Core" HintPath="$(GameRoot)\BepInEx\core\BepInEx.Core.dll" Private="false" />
+    <Reference Include="Unity.Localization" HintPath="$(GameInteropRoot)\Unity.Localization.dll" Private="false" />
+    <Reference Include="Il2CppInterop.Runtime" HintPath="$(GameRoot)\BepInEx\core\Il2CppInterop.Runtime.dll" Private="false" />
+    <Reference Include="Il2Cppmscorlib" HintPath="$(GameInteropRoot)\Il2Cppmscorlib.dll" Private="false" />
+    <Reference Include="UnityEngine.CoreModule" HintPath="$(GameInteropRoot)\UnityEngine.CoreModule.dll" Private="false" />
+    <Reference Include="Sons.StatSystem" HintPath="$(GameInteropRoot)\Sons.StatSystem.dll" Private="false" />
+    <Reference Include="Sons.Atmosphere" HintPath="$(GameInteropRoot)\Sons.Atmosphere.dll" Private="false" />
+    <Reference Include="Sons.Multiplayer" HintPath="$(GameInteropRoot)\Sons.Multiplayer.dll" Private="false" />
+    <Reference Include="Unity.Addressables" HintPath="$(GameInteropRoot)\Unity.Addressables.dll" Private="false" />
+    <Reference Include="Unity.ResourceManager" HintPath="$(GameInteropRoot)\Unity.ResourceManager.dll" Private="false" />
+    <Reference Include="Sons.Settings" HintPath="$(GameInteropRoot)\Sons.Settings.dll" Private="false" />
+    <Reference Include="UnityEngine.ImageConversionModule" HintPath="$(GameInteropRoot)\UnityEngine.ImageConversionModule.dll" Private="false" />
+    <Reference Include="UnityEngine.AnimationModule" HintPath="$(GameInteropRoot)\UnityEngine.AnimationModule.dll" Private="false" />
+    <Reference Include="UnityEngine.PhysicsModule" HintPath="$(GameInteropRoot)\UnityEngine.PhysicsModule.dll" Private="false" />
+    <Reference Include="UnityEngine.ParticleSystemModule" HintPath="$(GameInteropRoot)\UnityEngine.ParticleSystemModule.dll" Private="false" />
+    <Reference Include="UnityEngine.AudioModule" HintPath="$(GameInteropRoot)\UnityEngine.AudioModule.dll" Private="false" />
+    <Reference Include="FMOD.Unity" HintPath="$(GameInteropRoot)\FMOD.Unity.dll" Private="false" />
+    <Reference Include="Unity.InputSystem" HintPath="$(GameInteropRoot)\Unity.InputSystem.dll" Private="false" />
+    <Reference Include="0Harmony" HintPath="$(GameRoot)\BepInEx\core\0Harmony.dll" Private="false" />
+    <Reference Include="UnityEngine.UIModule" HintPath="$(GameInteropRoot)\UnityEngine.UIModule.dll" Private="false" />
+    <Reference Include="UnityEngine.UI" HintPath="$(GameInteropRoot)\UnityEngine.UI.dll" Private="false" />
+    <Reference Include="UnityEngine.InputLegacyModule" HintPath="$(GameInteropRoot)\UnityEngine.InputLegacyModule.dll" Private="false" />
+    <Reference Include="Unity.TextMeshPro" HintPath="$(GameInteropRoot)\Unity.TextMeshPro.dll" Private="false" />
+    <Reference Include="Sons" HintPath="$(GameInteropRoot)\Sons.dll" Private="false" />
+    <Reference Include="Sons.Ai.Vail" HintPath="$(GameInteropRoot)\Sons.Ai.Vail.dll" Private="false" />
+    <Reference Include="Sons.Ai.Utilities" HintPath="$(GameInteropRoot)\Sons.Ai.Utilities.dll" Private="false" />
+    <Reference Include="AstarPathfindingProject" HintPath="$(GameInteropRoot)\AstarPathfindingProject.dll" Private="false" />
+    <Reference Include="Sons.Weapon" HintPath="$(GameInteropRoot)\Sons.Weapon.dll" Private="false" />
+    <Reference Include="Unity.RenderPipelines.HighDefinition.Runtime" HintPath="$(GameInteropRoot)\Unity.RenderPipelines.HighDefinition.Runtime.dll" Private="false" />
+    <Reference Include="Unity.RenderPipelines.Core.Runtime" HintPath="$(GameInteropRoot)\Unity.RenderPipelines.Core.Runtime.dll" Private="false" />
+    <Reference Include="udpkit" HintPath="$(GameInteropRoot)\udpkit.dll" Private="false" />
+    <Reference Include="udpkit.common" HintPath="$(GameInteropRoot)\udpkit.common.dll" Private="false" />
+    <Reference Include="com.rlabrecque.steamworks.net" HintPath="$(GameInteropRoot)\com.rlabrecque.steamworks.net.dll" Private="false" />
+    <Reference Include="ShapesRuntime" HintPath="$(GameInteropRoot)\ShapesRuntime.dll" Private="false" />
+    <Reference Include="Sons.Input" HintPath="$(GameInteropRoot)\Sons.Input.dll" Private="false" />
+    <Reference Include="bolt" HintPath="$(GameInteropRoot)\bolt.dll" Private="false" />
+    <Reference Include="bolt.user" HintPath="$(GameInteropRoot)\bolt.user.dll" Private="false" />
+    <Reference Include="Sons.Item" HintPath="$(GameInteropRoot)\Sons.Item.dll" Private="false" />
+    <Reference Include="Sons.Save" HintPath="$(GameInteropRoot)\Sons.Save.dll" Private="false" />
+    <Reference Include="Sons.Gameplay.GameSetup" HintPath="$(GameInteropRoot)\Sons.Gameplay.GameSetup.dll" Private="false" />
+    <Reference Include="Endnight" HintPath="$(GameInteropRoot)\Endnight.dll" Private="false" />
+    <Reference Include="RootMotion" HintPath="$(GameInteropRoot)\RootMotion.dll" Private="false" />
+    <None Update="openacai.mod.json" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="Assets\device-*-base.png;Assets\device-*-normal.png;Assets\device-*-mask.png" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\arcade-*.png" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\aircraft-*" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-cargo-*.png;Assets\spacecraft-cargo-*.msa" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-airlock-*.png;Assets\spacecraft-airlock-*.msa" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-controls-housing.msa;Assets\spacecraft-controls-gimbal.msa;Assets\spacecraft-controls-grip.msa;Assets\spacecraft-controls-trigger.msa;Assets\spacecraft-controls-boot.msa" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-controls-atlas.png;Assets\spacecraft-controls-atlas-normal.png;Assets\spacecraft-controls-atlas-mask.png" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-console-housing.msa;Assets\spacecraft-console-key.msa" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-console-atlas.png;Assets\spacecraft-console-atlas-normal.png;Assets\spacecraft-console-atlas-mask.png" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-shore-*.msa;Assets\spacecraft-shore-atlas-*.png;Assets\spacecraft-shore-*.wav" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\box-*.png;Assets\box-*.msa;Assets\box-layout.json;Assets\box-source-notices.txt" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Spacecraft\Station\Assets\hull-breach.msa;Spacecraft\Station\Assets\hull-breach-lod.msa;Spacecraft\Station\Assets\hull-breach-base.png;Spacecraft\Station\Assets\hull-breach-mask.png;Spacecraft\Station\Assets\hull-breach-normal.png" LogicalName="Modstoke.Client.Assets.box-%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Spacecraft\Station\Assets\foam-*.msa;Spacecraft\Station\Assets\foam-*.png" LogicalName="Modstoke.Client.Assets.box-%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Spacecraft\Station\Assets\repair-*.msa;Spacecraft\Station\Assets\repair-*.png" LogicalName="Modstoke.Client.Assets.box-%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\eva-*.png;Assets\eva-*.msa" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-solar-system.json" LogicalName="Modstoke.Client.Assets.spacecraft-solar-system.json" />
+    <EmbeddedResource Include="Assets\spacecraft-celestial-earth.png" LogicalName="Modstoke.Client.Assets.spacecraft-celestial-earth.png" />
+    <EmbeddedResource Include="Assets\spacecraft-celestial-moon.jpg" LogicalName="Modstoke.Client.Assets.spacecraft-celestial-moon.jpg" />
+    <EmbeddedResource Include="Assets\spacecraft-celestial-mercury.jpg;Assets\spacecraft-celestial-venus-atmosphere.jpg;Assets\spacecraft-celestial-mars.jpg;Assets\spacecraft-celestial-jupiter.jpg;Assets\spacecraft-celestial-saturn.jpg;Assets\spacecraft-celestial-uranus.jpg;Assets\spacecraft-celestial-neptune.jpg" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-celestial-notice.txt" LogicalName="Modstoke.Client.Assets.spacecraft-celestial-notice.txt" />
+    <None Include="Assets\spacecraft-celestial-notice.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="Assets\spacecraft-world-*.png" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-instrument-face.png" LogicalName="Modstoke.Client.Assets.spacecraft-instrument-face.png" />
+    <EmbeddedResource Include="Assets\spacecraft-apu-guard-*.msa" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-apu-control-*.msa" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-door-control-*.msa" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-engineering-control-*.msa" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-coolant-seal-*.msa" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-spares-store-*.msa" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-engine-service-*.msa" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-sealant-*.msa" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-system-service-*.msa" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-hull-weld-*.msa" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-warp-service-*.msa" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-tool-rack-*.msa" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-extinguisher-rack-*.msa" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-navigation-control-*.msa" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-world-*.msa" LogicalName="Modstoke.Client.Assets.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Assets\spacecraft-voice\*.wav" LogicalName="Modstoke.Client.Assets.spacecraft-voice.%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>

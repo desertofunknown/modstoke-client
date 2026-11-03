@@ -1,0 +1,54 @@
+Celestial surface imagery
+
+spacecraft-celestial-earth.png
+NASA Blue Marble surface map, 2048 x 1024.
+Credit: NASA/Goddard Space Flight Center Scientific Visualization Studio.
+Blue Marble data courtesy of Reto Stockli (NASA/GSFC) and NASA Earth Observatory.
+Source: https://svs.gsfc.nasa.gov/2915/
+Original image: https://svs.gsfc.nasa.gov/vis/a000000/a002900/a002915/bluemarble-2048.png
+
+spacecraft-celestial-moon.jpg
+NASA Moon color map, 2048 x 1024.
+Credit: NASA Scientific Visualization Studio; visualization by Ernie Wright;
+Lunar Reconnaissance Orbiter Camera (LROC) and Lunar Orbiter Laser Altimeter (LOLA).
+Source: https://svs.gsfc.nasa.gov/4720/
+Original image: https://svs.gsfc.nasa.gov/vis/a000000/a004700/a004720/lroc_color_2k.jpg
+
+The Earth and Moon image files are distributed unchanged from the original sources above.
+NASA images and media guidance: https://www.nasa.gov/nasa-brand-center/images-and-media/
+Use of this imagery does not imply NASA endorsement of this software.
+
+spacecraft-celestial-mercury.jpg
+spacecraft-celestial-venus-atmosphere.jpg
+spacecraft-celestial-mars.jpg
+spacecraft-celestial-jupiter.jpg
+spacecraft-celestial-saturn.jpg
+spacecraft-celestial-uranus.jpg
+spacecraft-celestial-neptune.jpg
+Solar System Scope planetary maps, 2048 x 1024, equirectangular projection.
+Credit: Solar System Scope / INOVE.
+Source: https://www.solarsystemscope.com/textures/
+License: Creative Commons Attribution 4.0 International (CC BY 4.0).
+https://creativecommons.org/licenses/by/4.0/
+
+Original download URLs:
+https://www.solarsystemscope.com/textures/download/2k_mercury.jpg
+https://www.solarsystemscope.com/textures/download/2k_venus_atmosphere.jpg
+https://www.solarsystemscope.com/textures/download/2k_mars.jpg
+https://www.solarsystemscope.com/textures/download/2k_jupiter.jpg
+https://www.solarsystemscope.com/textures/download/2k_saturn.jpg
+https://www.solarsystemscope.com/textures/download/2k_uranus.jpg
+https://www.solarsystemscope.com/textures/download/2k_neptune.jpg
+
+Mercury and Venus were obtained from the credited Simple Space Data Mirror:
+https://www.simplespacedata.org/texture/solarsystemscope/mercury/latest/2k_mercury.jpg
+https://www.simplespacedata.org/texture/solarsystemscope/venus_atmosphere/latest/2k_venus_atmosphere.jpg
+The other five maps were obtained directly from Solar System Scope.
+Downloaded image bytes are unchanged; filenames are changed for packaging.
+The renderer applies lighting to these maps during play.
+
+Solar System Scope combines NASA imagery with adjusted color and saturation;
+unmapped areas may contain fictional terrain fill. Venus uses the atmosphere
+map, not the radar surface map. These maps are representative visual imagery,
+not current weather or calibrated scientific albedo data.
+No endorsement by Solar System Scope, INOVE or the mirror is implied.
