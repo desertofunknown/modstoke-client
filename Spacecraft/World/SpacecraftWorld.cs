@@ -32,6 +32,10 @@ internal sealed partial class ClientSpacecraftWorld : IDisposable
     private GameObject? _spaceSky;
     private GameObject? _worldSky;
     private Light? _terrainLight;
+    // Orbit had no light at all: hull, station and planets read as black against black.
+    private Light? _spaceSun;
+    private Vector3 _sunDirection;
+    private bool _hasSunDirection;
     private Vector3[]? _terrainVertices;
     private bool _attempted;
     private bool _disposed;
@@ -72,6 +76,14 @@ internal sealed partial class ClientSpacecraftWorld : IDisposable
             _terrainLight.shadows = LightShadows.None;
             lightNode.AddComponent<HDAdditionalLightData>().intensity = 9000000;
             _terrainLight.enabled = false;
+            var sunNode = Child("Orbital sunlight", _root.transform);
+            _spaceSun = sunNode.AddComponent<Light>();
+            _spaceSun.type = LightType.Directional;
+            _spaceSun.color = new Color(1f, .97f, .92f);
+            _spaceSun.shadows = LightShadows.Soft;
+            // Direct sunlight above the atmosphere, in lux.
+            sunNode.AddComponent<HDAdditionalLightData>().intensity = 120000;
+            _spaceSun.enabled = false;
             _root.SetActive(true);
             _preparationFailures = 0;
             _nextPreparationAt = 0;
@@ -144,6 +156,12 @@ internal sealed partial class ClientSpacecraftWorld : IDisposable
         _backdrop.SetActive(active);
         if (_terrainLight != null) _terrainLight.enabled = region == SpacecraftRegion.TestWorld;
         if (_moonLight != null) _moonLight.enabled = region == SpacecraftRegion.Moon;
+        if (_spaceSun != null)
+        {
+            var sunlit = region == SpacecraftRegion.Space && _hasSunDirection;
+            if (sunlit) _spaceSun.transform.rotation = Quaternion.LookRotation(-_sunDirection);
+            if (_spaceSun.enabled != sunlit) _spaceSun.enabled = sunlit;
+        }
         if (!active || camera == null) return;
         _backdrop.transform.position = camera.transform.position;
         // Stay inside the camera far plane; the opaque shell also hides retained
@@ -458,6 +476,8 @@ internal sealed partial class ClientSpacecraftWorld : IDisposable
         Array.Clear(_beaconMaterials, 0, _beaconMaterials.Length);
         _root = _backdrop = _spaceSky = _worldSky = null;
         _terrainLight = null;
+        _spaceSun = null;
+        _hasSunDirection = false;
         _moonLight = null;
         _moonVertices = null;
         _terrainVertices = null;

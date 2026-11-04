@@ -71,6 +71,12 @@ internal sealed partial class ClientSpacecraftWorld
             _stars.transform.localRotation = Quaternion.LookRotation(
                 Native(sky.Frame.ToLocalDirection(new(0, 0, 1))),
                 Native(sky.Frame.ToLocalDirection(new(0, 1, 0))));
+            var toSun = sunlight - observer;
+            if (toSun.LengthSquared > 0)
+            {
+                var direction = Native(sky.Frame.ToLocalDirection(toSun / Math.Sqrt(toSun.LengthSquared)));
+                if (direction.sqrMagnitude > .5f) { _sunDirection = direction.normalized; _hasSunDirection = true; }
+            }
         }
         for (int i = 0; i < _celestialBodies.Length; i++)
         {
