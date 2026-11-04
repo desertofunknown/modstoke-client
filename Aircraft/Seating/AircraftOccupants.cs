@@ -152,9 +152,15 @@ internal sealed class ClientAircraftOccupants : IDisposable
             if (!Live(entity) || !entity.isAttached || Same(entity, LocalPlayer.Entity)
                 || entity._entity == null || entity._entity.WasCollected) return null;
             var planes = aircraft.Body.GetComponentsInChildren<Collider>(true);
-            var players = entity.GetComponentsInChildren<Collider>(true);
+            var hierarchy = entity.GetComponentsInChildren<Collider>(true);
             if (planes == null || planes.WasCollected || planes.Length > 48
-                || players == null || players.WasCollected || players.Length > 128) return null;
+                || hierarchy == null || hierarchy.WasCollected) return null;
+            // Carried equipment adds hundreds of trigger colliders, more so before a player's
+            // first equip; only solid colliders can push the airframe.
+            var players = new System.Collections.Generic.List<Collider>();
+            foreach (var collider in hierarchy)
+                if (Live(collider) && !collider.isTrigger) players.Add(collider);
+            if (players.Count > 512) return null;
             var lease = new Collisions(aircraft, entity);
             try
             {

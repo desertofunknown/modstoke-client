@@ -636,8 +636,10 @@ internal sealed class ClientAircraftRider : IDisposable
             var head = _biped!.references.head;
             _eyeOffset = Quaternion.Inverse(head.rotation) * (Camera.transform.position - head.position);
             var colliders = Body.GetComponentsInChildren<Collider>(true);
-            if (colliders == null || colliders.WasCollected || colliders.Length > 128)
+            if (colliders == null || colliders.WasCollected)
                 throw new InvalidOperationException("The player collision hierarchy is unavailable.");
+            // Inactive carried equipment can contribute hundreds of colliders, more so before
+            // the first equip. Ownership, not the unfiltered hierarchy size, defines our capture.
             foreach (var collider in colliders)
                 if (Live(collider) && Same(collider.attachedRigidbody, Body))
                     _colliders.Add((collider, collider.enabled));

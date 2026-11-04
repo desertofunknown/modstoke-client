@@ -15,6 +15,7 @@ namespace Modstoke.Client;
 // One shared test airframe per world. Only the host mutates its physics or seats.
 internal sealed partial class ClientAircraftService
 {
+    private static readonly BepInEx.Logging.ManualLogSource Log = BepInEx.Logging.Logger.CreateLogSource("Modstoke aircraft");
     private readonly int _thread = Environment.CurrentManagedThreadId;
     private readonly Dictionary<Guid, Peer> _peers = new();
     private readonly KeyValuePair<Guid, Peer>[] _peerSnapshot = new KeyValuePair<Guid, Peer>[16];
@@ -162,12 +163,17 @@ internal sealed partial class ClientAircraftService
                 var peer = _seats[i];
                 if (peer == null) { _actorIds[i] = 0; continue; }
                 if (!TryActor(peer, out var position, out _, out var actor))
-                { ReleaseSeat(peer, null); continue; }
+                { DropSeat(peer, i, "the occupant is no longer a living player"); continue; }
                 _actorIds[i] = peer.Phase == SeatPhase.Boarding ? 0 : actor;
-                // Allow attachment time and ordinary network lag, not arbitrary teleports.
-                if (_body != null && peer.Phase != SeatPhase.Leaving && now - peer.BoardedAt > 4000
-                    && (position - _body.Root.transform.TransformPoint(AircraftLayout.Seat(i))).sqrMagnitude > 225)
-                    ReleaseSeat(peer, null);
+                // Allow attachment time and ordinary network lag, not arbitrary teleports. The local
+                // rider re-seats its own player every frame, but the airframe moves first, so a frame
+                // hitch at speed leaves it metres behind; it is never a teleport. Remote crew get a
+                // margin for the distance flown during their lag.
+                var localRider = ReferenceEquals(peer, _local) && _rider?.Attached == true && _ridingLease == peer.Lease;
+                var allowed = _body == null ? 15 : 15 + _body.State.Velocity.magnitude * 1.5f;
+                if (_body != null && !localRider && peer.Phase != SeatPhase.Leaving && now - peer.BoardedAt > 4000
+                    && (position - _body.Root.transform.TransformPoint(AircraftLayout.Seat(i))).sqrMagnitude > allowed * allowed)
+                    DropSeat(peer, i, "the occupant left the seat area");
             }
             UpdateDoorTransitions(now);
             CaptureParkedPosition();
@@ -448,6 +454,16 @@ internal sealed partial class ClientAircraftService
         peer.EmergencyExit = false;
         peer.NextExitEvidence = 0;
         peer.DoorReadyAt = peer.TransitionExpiresAt = peer.LastSeatSequence = 0;
+    }
+
+    // Releases a seat the host can no longer vouch for, and says why.
+    private void DropSeat(Peer peer, int seat, string reason)
+    {
+        var message = (seat == 0 ? "The pilot seat" : "A passenger seat") + " was released: " + reason + ".";
+        Log.LogWarning(message);
+        peer.Result = message;
+        if (ReferenceEquals(peer, _local)) _feedback = message;
+        ReleaseSeat(peer, null);
     }
 
     private void SyncRider()

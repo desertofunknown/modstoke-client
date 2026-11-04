@@ -345,9 +345,15 @@ internal sealed class ClientSpacecraftOccupants : IDisposable
             // The landing ramp collider moves below the ship root. Include it
             // with the fixed hull while this remote actor owns an occupied seat.
             var ships = spacecraft.Root.GetComponentsInChildren<Collider>(true);
-            var players = entity.GetComponentsInChildren<Collider>(true);
+            var hierarchy = entity.GetComponentsInChildren<Collider>(true);
             if (ships == null || ships.WasCollected || ships.Length > 128
-                || players == null || players.WasCollected || players.Length > 128) return null;
+                || hierarchy == null || hierarchy.WasCollected) return null;
+            // Carried equipment adds hundreds of trigger colliders, more so before a player's
+            // first equip; only solid colliders can push the hull.
+            var players = new System.Collections.Generic.List<Collider>();
+            foreach (var collider in hierarchy)
+                if (Live(collider) && !collider.isTrigger) players.Add(collider);
+            if (players.Count > 512) return null;
             var lease = new Collisions(spacecraft, entity);
             try
             {

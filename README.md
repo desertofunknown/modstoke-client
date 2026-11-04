@@ -6,7 +6,7 @@ admission is optional and disabled by default. Modstoke is not affiliated with
 or endorsed by Endnight Games.
 
 Place `Modstoke.Client.dll` and `openacai.mod.json` together in a native package
-folder under `Modstoke/Mods`. Client 0.2.7 requires the matching Modstoke SDK
+folder under `Modstoke/Mods`. Client 0.2.8 requires the matching Modstoke SDK
 build with equipment, crafting-mat, terrain-surface and local-vitals observations. Keep the Loader
 Core and SonsSdk runtime files matched on the host and participating clients. Use Modstoke Admin
 0.5.212 rebuilt against the same SDK for the current tablet server features. Servers requiring an
@@ -16,7 +16,7 @@ installing the package does not change admission policy.
 The Client uses the game's Unity, TextMeshPro and FMOD assemblies. Do not bundle
 extra copies of them, the loader DLL or either original loader.
 
-Use Client 0.2.7 on the host and every participating player. Other players can see
+Use Client 0.2.8 on the host and every participating player. Other players can see
 the tablet being held and used, the worn watch and its inspection gestures, and
 deployed drones. Nearby players can see the tablet's actual screen, including
 messages, notes, games and drone video. Screen sharing uses a 512Ã320 image at
@@ -110,7 +110,7 @@ and **Queue receipts** distinguish current observations from recorded work.
 level clearing. It uses the installed game's hull and cabin assets. Pause on the
 ground outside the rear ramp while your island return is prepared automatically, then walk
 through the cabin. Look at the pilot chair or either passenger chair and press
-**E** to sit. The host and every occupant should use Client 0.2.7 and matching
+**E** to sit. The host and every occupant should use Client 0.2.8 and matching
 Loader/SDK files so cabin collision and controls agree.
 
 The pilot's cursor opens on the physical console after sitting down. Click the
@@ -148,7 +148,7 @@ still require in-game acceptance for this build.
 
 ## Shared aircraft
 
-With Client 0.2.7 on the host and every participating player, **All apps â Hangar**
+With Client 0.2.8 on the host and every participating player, **All apps â Hangar**
 deploys a Kestrel K3 with one pilot seat and two passenger seats. Stand outdoors
 facing a large, dry clearing. Placement searches nearby positions 14â22 metres
 ahead and checks wheel support, door access and the first 24 metres of taxi
