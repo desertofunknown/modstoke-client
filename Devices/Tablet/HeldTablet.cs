@@ -98,7 +98,7 @@ internal sealed class ClientHeldTablet : IDisposable
     {
         var inventory = LocalPlayer.Inventory;
         return _phase == Phase.Idle && CanUse(inventory)
-            && inventory!._currentEquipState == PlayerInventory.HandEquipState.Idle
+            && HandsIdle(inventory!)
             && NextHandEmpty(inventory, EquipmentSlot.RightHand) && NextHandEmpty(inventory, EquipmentSlot.LeftHand)
             && (inventory.LeftHandItem?._itemID == ItemIdentifiers.GPSTracker
                 || (HasStoredGps(inventory) && inventory.CanEquipItemInLeftHand(ItemIdentifiers.GPSTracker)));
@@ -109,7 +109,7 @@ internal sealed class ClientHeldTablet : IDisposable
         if (_phase != Phase.Idle)
             return false;
         var inventory = LocalPlayer.Inventory;
-        if (!CanUse(inventory) || inventory!._currentEquipState != PlayerInventory.HandEquipState.Idle
+        if (!CanUse(inventory) || !HandsIdle(inventory!)
             || !NextHandEmpty(inventory, EquipmentSlot.RightHand) || !NextHandEmpty(inventory, EquipmentSlot.LeftHand))
             return Refuse("Finish your current equipment action before taking out the tablet.");
         var left = inventory.LeftHandItem;
@@ -870,6 +870,14 @@ internal sealed class ClientHeldTablet : IDisposable
         var next = inventory._equipmentSlotsNext;
         return next != null && !next.WasCollected && next.Length > (int)slot && next[(int)slot] == null;
     }
+
+    // A new game starts in Equipping, the enum's default, and only reaches Idle after the first
+    // equip finishes, so empty hands with nothing queued count as idle too.
+    internal static bool HandsIdle(PlayerInventory inventory) =>
+        inventory._currentEquipState == PlayerInventory.HandEquipState.Idle
+        || inventory._currentEquipState == PlayerInventory.HandEquipState.Equipping
+            && inventory.RightHandItem == null && inventory.LeftHandItem == null
+            && NextHandEmpty(inventory, EquipmentSlot.RightHand) && NextHandEmpty(inventory, EquipmentSlot.LeftHand);
 
     private static bool RightHandEmpty(PlayerInventory inventory) => inventory.RightHandItem == null
         && NextHandEmpty(inventory, EquipmentSlot.RightHand);

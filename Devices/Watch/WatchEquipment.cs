@@ -404,7 +404,7 @@ internal sealed class ClientWatchEquipment
         ? _inventory!.PreviousRightHandItem : _inventory!.PreviousLeftHandItem;
 
     private static bool NativeIdle(PlayerInventory inventory) => !LocalPlayer.IsInMidAction
-        && inventory._currentEquipState == PlayerInventory.HandEquipState.Idle && NextHandsEmpty(inventory);
+        && ClientHeldTablet.HandsIdle(inventory) && NextHandsEmpty(inventory);
 
     private static bool NextHandsEmpty(PlayerInventory inventory)
     {

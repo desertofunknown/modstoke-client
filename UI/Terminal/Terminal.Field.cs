@@ -119,7 +119,7 @@ internal sealed partial class ClientTerminal
             return false;
         }
         if (!GameRuntime.State.IsInWorld || owner._currentView != PlayerInventory.PlayerViews.World
-            || owner._currentEquipState != PlayerInventory.HandEquipState.Idle) return false;
+            || !ClientHeldTablet.HandsIdle(owner)) return false;
         _inventoryTabletOwner = null;
         controller = _inventoryControllerRequested;
         _inventoryControllerRequested = false;

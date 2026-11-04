@@ -30,7 +30,7 @@ internal sealed partial class ClientTerminal
         var load = SaveLifecycle.State.BeforeLoadCount;
         var inventory = LocalPlayer.Inventory;
         if (inventory == null || inventory.WasCollected || !inventory
-            || inventory._currentEquipState != TheForest.Items.Inventory.PlayerInventory.HandEquipState.Idle) return false;
+            || !ClientHeldTablet.HandsIdle(inventory)) return false;
         if (_aircraftInput) return _aircraftAllowsPause == allowPause;
         _aircraftInputActor = actor;
         _aircraftInputStats = stats;
