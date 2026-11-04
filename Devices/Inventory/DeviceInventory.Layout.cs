@@ -173,7 +173,8 @@ internal sealed partial class ClientDeviceInventory
             wrapMode = TextureWrapMode.Clamp
         };
         texture.SetPixels(pixels);
-        texture.Apply(false, true);
+        // The inventory copies item icons when it builds its UI, which needs readable pixels.
+        texture.Apply(false, false);
         return texture;
     }
 
