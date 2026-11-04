@@ -247,7 +247,7 @@ internal sealed class ClientHeldTablet : IDisposable
                 Close(false);
                 return;
             }
-            if (!_gpsRequested && inventory._currentEquipState == PlayerInventory.HandEquipState.Idle)
+            if (!_gpsRequested && HandsIdle(inventory))
             {
                 var canEquip = inventory.CanEquipItemInLeftHand(ItemIdentifiers.GPSTracker);
                 if (canEquip)
@@ -871,13 +871,14 @@ internal sealed class ClientHeldTablet : IDisposable
         return next != null && !next.WasCollected && next.Length > (int)slot && next[(int)slot] == null;
     }
 
-    // A new game starts in Equipping, the enum's default, and only reaches Idle after the first
-    // equip finishes, so empty hands with nothing queued count as idle too.
+    // Only EquipSequence returns the state to Idle. A new game starts in Equipping and opening the
+    // inventory turns that into StashCancelRightEquip, so until the first equip, empty hands with
+    // nothing mid-action or queued are settled whatever the state says.
     internal static bool HandsIdle(PlayerInventory inventory) =>
-        inventory._currentEquipState == PlayerInventory.HandEquipState.Idle
-        || inventory._currentEquipState == PlayerInventory.HandEquipState.Equipping
-            && inventory.RightHandItem == null && inventory.LeftHandItem == null
-            && NextHandEmpty(inventory, EquipmentSlot.RightHand) && NextHandEmpty(inventory, EquipmentSlot.LeftHand);
+        !LocalPlayer.IsInMidAction
+        && NextHandEmpty(inventory, EquipmentSlot.RightHand) && NextHandEmpty(inventory, EquipmentSlot.LeftHand)
+        && (inventory._currentEquipState == PlayerInventory.HandEquipState.Idle
+            || inventory.RightHandItem == null && inventory.LeftHandItem == null);
 
     private static bool RightHandEmpty(PlayerInventory inventory) => inventory.RightHandItem == null
         && NextHandEmpty(inventory, EquipmentSlot.RightHand);

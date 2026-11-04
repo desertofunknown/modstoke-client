@@ -40,6 +40,8 @@ internal sealed partial class ClientDeviceInventory : IDisposable
     private bool _started;
     private bool _saveRegistered;
     private bool _failed;
+    private int _failures;
+    private float _retryAt;
     private bool _applyOwnership;
     private bool _tabletOwned = true;
     private bool _watchOwned = true;
@@ -85,7 +87,15 @@ internal sealed partial class ClientDeviceInventory : IDisposable
 
     internal void Update()
     {
-        if (!_started || _failed || Environment.CurrentManagedThreadId != _thread) return;
+        if (!_started || Environment.CurrentManagedThreadId != _thread) return;
+        if (_failed)
+        {
+            // A stale native layout must not take the tablet away for the rest of the session.
+            if (_failures > 3 || Time.unscaledTime < _retryAt) return;
+            _failed = false;
+            _nextBind = 0;
+            _log?.LogInfo("Retrying field device setup.");
+        }
         try
         {
             _setupStage = "checking world readiness";
@@ -149,6 +159,8 @@ internal sealed partial class ClientDeviceInventory : IDisposable
         catch (Exception error)
         {
             _failed = true;
+            _failures++;
+            _retryAt = Time.unscaledTime + 2;
             HasTablet = HasWatch = HasController = false;
             Status = "Field inventory unavailable (" + _setupStage + "): " + error.Message;
             _log?.LogError("Setup stopped while " + _setupStage + ": " + error);
@@ -195,6 +207,7 @@ internal sealed partial class ClientDeviceInventory : IDisposable
         ReleaseInventory();
         ResetOwnership();
         _failed = false;
+        _failures = 0;
         _nextBind = 0;
         SessionRevision++;
     }
@@ -264,6 +277,7 @@ internal sealed partial class ClientDeviceInventory : IDisposable
         _tabletLayout = _watchLayout = null;
         _controllerLayout = null;
         _droneLayout = _droneBatteryLayout = null;
+        _anchor = null;
         _applyDroneKit = true;
         if (_manager != null && _manager)
         {

@@ -2,6 +2,7 @@
 // Copyright (C) 2026 Alex Cooper
 
 using System;
+using Sons.Inventory;
 using Sons.Items.Core;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ internal sealed partial class ClientDeviceInventory
     private ItemData? _droneBatteryData;
     private DeviceLayout? _droneLayout;
     private DeviceLayout? _droneBatteryLayout;
+    private InventoryLayoutItemGroup? _anchor;
     private bool _droneKitReady;
     private bool _droneInInventory;
     private int _droneSparePacks;
@@ -46,9 +48,26 @@ internal sealed partial class ClientDeviceInventory
         if (_droneSparePacks == 0) _droneBatteryLayout!.Hide();
         ApplyDroneCount(DroneItemId, currentDrone, droneCount);
         ApplyDroneCount(DroneBatteryItemId, currentPacks, _droneSparePacks);
-        if (droneCount > 0) _droneLayout!.Refresh();
-        if (_droneSparePacks > 0) _droneBatteryLayout!.Refresh();
+        if (droneCount > 0) RefreshKitLayout(ref _droneLayout, _droneData!, DeviceKind.Drone);
+        if (_droneSparePacks > 0) RefreshKitLayout(ref _droneBatteryLayout, _droneBatteryData!, DeviceKind.DroneBattery);
         _applyDroneKit = false;
+    }
+
+    // Removing a kit item can leave a sibling layout stale; rebuild just that layout.
+    private void RefreshKitLayout(ref DeviceLayout? layout, ItemData data, DeviceKind kind)
+    {
+        if (layout!.TryRefresh(out var status)) return;
+        _log?.LogWarning("Rebuilding the " + data._name + " inventory layout: " + status);
+        layout.Dispose();
+        layout = null;
+        var rebuilt = new DeviceLayout();
+        if (_anchor == null || !_anchor || !rebuilt.TryInitialize(_anchor, data, kind, Select, out status)
+            || !rebuilt.TryRefresh(out status))
+        {
+            rebuilt.Dispose();
+            throw new InvalidOperationException(status);
+        }
+        layout = rebuilt;
     }
 
     private void ApplyDroneCount(int id, int current, int desired)

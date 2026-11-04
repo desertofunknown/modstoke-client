@@ -186,6 +186,7 @@ internal sealed partial class ClientDeviceInventory
                 && candidate._layoutItems != null && candidate._layoutItems.Count > 0 && candidate._layoutItems[0])
             { anchor = candidate; break; }
         if (anchor == null || !anchor) return false;
+        _anchor = anchor;
         // Keep partial layouts reachable if initialization or cleanup fails.
         _setupStage = "creating the tablet model";
         _tabletLayout = new DeviceLayout();
@@ -338,7 +339,13 @@ internal sealed partial class ClientDeviceInventory
 
         internal void Refresh()
         {
-            if (!_layout!.TryRefresh(out var status)) throw new InvalidOperationException(status);
+            if (!TryRefresh(out var status)) throw new InvalidOperationException(status);
+        }
+
+        internal bool TryRefresh(out string status)
+        {
+            status = "The inventory layout was released.";
+            return _layout != null && _layout.TryRefresh(out status);
         }
 
         internal void Hide()

@@ -21,6 +21,7 @@ internal sealed partial class ClientTerminal
     private const string KeybindId = "modstoke.client.terminal";
     private const string PanelId = "modstoke.client.field-terminal";
     private static readonly string ClientVersion = typeof(Plugin).Assembly.GetName().Version?.ToString(3) ?? "unknown";
+    private static readonly ManualLogSource NoticeLog = BepInEx.Logging.Logger.CreateLogSource("Modstoke Client tablet");
     private readonly ClientHeldTablet _tablet = new();
     private readonly Func<bool> _canEquipTablet;
     private readonly ClientGpsInput _gpsInput;
@@ -656,8 +657,8 @@ internal sealed partial class ClientTerminal
     {
         if (string.IsNullOrWhiteSpace(message))
             return;
-        // Console output is not redirected in every loader installation.
-        Debug.Log("Modstoke Client tablet: " + message);
+        // Unity info lines never reach LogOutput.log; a log source does.
+        NoticeLog.LogInfo(message);
         try { SonsTools.ShowMessage(message, 5); }
         catch (Exception error)
         {

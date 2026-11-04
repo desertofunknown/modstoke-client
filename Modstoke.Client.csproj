@@ -6,7 +6,7 @@
     <Product>Modstoke Client by OpenACAI</Product>
     <Company>OpenACAI</Company>
     <Description>Field tablet and wristwatch with navigation, messages and community services, by OpenACAI.</Description>
-    <Version>0.2.6</Version>
+    <Version>0.2.7</Version>
     <RootNamespace>Modstoke.Client</RootNamespace>
     <ImplicitUsings>disable</ImplicitUsings>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
